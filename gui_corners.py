@@ -1,7 +1,7 @@
 import turtle
 import turtle_helpers as th
 import corners as game
-
+import time
 def place_stone(x,y, color):
     '''place a stone on screen at (x,y) with given color'''
     stone = turtle.Turtle('turtle')
@@ -26,7 +26,7 @@ def play(x,y):
         # falls Spiel zu Ende, zeige Gewinner
         if game.result is not None: 
             display_result()
-
+        
 def display_result():
     '''display the game result'''
     th.write(alice, (0,170), str(game.result) + '\nPress n for new game')

@@ -27,8 +27,6 @@ class movableTurtle(turtle.Turtle):
             self.tracker = tracker 
 
         self.tracker.append(self)
-        self.tracker = movableTurtle.tracker 
-        self.tracker.append(self)
         
         th.custom_turtle(self, **kwargs)
         self.pos0 = self.pos()
@@ -59,13 +57,13 @@ class movableTurtle(turtle.Turtle):
             self.remove()
 
     def out_of_box(self):
-        if  self.dist() > self.maxdist: 
+        if  self.maxdist > 0 and self.dist() > self.maxdist: 
             self.remove()
 
     def remove(self,delete=True):
         if  self not in self.tracker:
             return False
-        self.stop()
+        #self.stop()
         self.hideturtle()
         if delete: self.clear()
         self.tracker.remove(self)
@@ -75,6 +73,7 @@ class movableTurtle(turtle.Turtle):
             self.tracker.remove(self)
         elif track and self not in self.tracker:
             self.tracker.append(self)
+            self.showturtle()
 
     def is_tracked(self):
         return self in self.tracker

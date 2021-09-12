@@ -24,7 +24,7 @@ def bobs_action3():
     count = bob.action_counter[bobs_action3]
     if  count % 2== 0:
         alice.clear()
-        th.write(alice,(0,150),str(d))
+        th.write(alice, (0, 150), str(d))
 
 # callbacks
 # called if key 'space' is pressed
@@ -37,18 +37,21 @@ def start_stop():
 # called if key 'r' is pressed          
 def remove_with_drawings():
     bob.remove()
+    print('Bob is now  untracked')
 
 # called if key 'd' is pressed      
 def remove_without_drawings():
     bob.remove(delete=False)
+    print('Bob is now  untracked')
     
 # called if key 't' is pressed
 def track_untrack():
     if bob.is_tracked():
         bob.track(False)
+        print('Bob is now  untracked')
     else:
         bob.track(True)   
-        bob.showturtle()
+        print('Bob is tracked again')
 
 # configure movable turtles
 turtle_config = {'shape':'turtle',
@@ -74,6 +77,7 @@ screen.onkeypress(remove_with_drawings,'r')
 screen.onkeypress(remove_without_drawings,'d') 
 screen.onkeypress(track_untrack,'t') 
 
-# excecute actions of all mTurtle objects every delay milliseconds
+# excecute actions of all  tracked  mTurtle objects t 
+# with t.running = True every delay milliseconds
 mTurtle.update(screen, delay= 100)
 turtle.done()  

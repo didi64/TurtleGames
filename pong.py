@@ -32,7 +32,6 @@ def is_invader_hit():
     for t in invaders:
         y = t.pos()
         if  th.distance(x,y) < 10:
-            t.stop()
             t.remove()
             invaders.remove(t)
 
@@ -57,7 +56,8 @@ def balls_action():
         reflect(ball, side=False)
     if abs(x1) >= 150:
         reflect(ball, side=True)
-
+    
+# wird bei druecken von 'space' ausgefuehrt
 def start_stop():
     if ball.running: ball.stop()
     else: ball.start()   
@@ -71,21 +71,19 @@ bob_config = {'shape':'square',
               }
 
 ball_config = {'shape':'circle',
-                 'size':(.3,.3), 
-                 'color': 'magenta', 
-                 'pendown': False, 
-                 'pos': (0,-135),
-                 'angle': 37,
-                 'maxdist': 1000
-                 }
+                'size':(.3,.3), 
+                'color': 'magenta', 
+                'pendown': False, 
+                'pos': (0,-135),
+                'angle': 37
+               }
 
 invader_config = {'shape':'turtle',
-                 'size':(1,1), 
-                 'color': 'black', 
-                 'pendown': False,
-                 'angle': 270
+                  'size':(1,1), 
+                  'color': 'black'
                  }
-# set up screen
+# set up screen that listens for events,
+# gezeichnet wird beim Aufruf von screen.update()
 screen = th.screen('Hit the invaders')
 bob =  mTurtle(**bob_config)   
 bob.add_action(bobs_action)
@@ -103,6 +101,8 @@ screen.onkeypress(bob_left, 'Left')
 screen.onkeypress(bob_right, 'Right')
 screen.onkeypress(start_stop, 'space')
 
-# start actions of all movable Turtles
-mTurtle.update(screen, delay= 30)
+# execute actions of all movable Turtles t on screen t with
+# t.running == True every delay milliseconds. 
+# Then  screen.update() is called.
+mTurtle.update(screen, delay = 30)
 turtle.done()
