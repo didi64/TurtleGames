@@ -73,3 +73,8 @@ def draw_square_from(t,pos,slen):
     for i in range(4):
         t.forward(slen)
         t.left(90) 
+
+def connect_points(t,pts):
+    fly_to(t, *pts[0])
+    for pt in pts:
+        t.goto(pt)        

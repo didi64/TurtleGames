@@ -7,7 +7,6 @@ def reload():
     global shots
     shots = 3
 
-
 # callbacks for keypress events Left, Right and space
 def bob_left():
     if  bob.running:
