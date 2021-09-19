@@ -1,5 +1,5 @@
-
 import math
+import time
 import turtle
 import turtle_helpers as th
 
@@ -16,7 +16,9 @@ class movableTurtle(turtle.Turtle):
     
     '''
     tracker = [] # stores dTurtles if no storage is provided
-    
+    Running = False
+    Lock = False
+    tasks = []
     def __init__(self, tracker=None, running = True, maxdist=0, **kwargs):
         '''movable turtle class'''
         super().__init__()
@@ -87,12 +89,37 @@ class movableTurtle(turtle.Turtle):
             else: self.out_of_screen()
 
     @classmethod
-    def update(cls, screen, delay=100):   
-        def update_():
+    def set_delay(cls, delay):
+        movableTurtle.delay = max(10, int(delay))
+    
+    @classmethod
+    def pause(cls):
+        movableTurtle.Running = False
+        
+    @classmethod
+    def restart(cls):
+        movableTurtle.Running = True
+
+    @classmethod  
+    def update(cls, screen, delay = 100): 
+        movableTurtle.set_delay(delay)
+        movableTurtle.Running = True
+        cls.update_(screen)
+
+    @classmethod   
+    def update_(cls, screen):
+        if movableTurtle.Running: 
             for t in cls.tracker:
                 t.action()
-            turtle.ontimer(update_, delay)
             screen.update() 
-
-        update_() 
-
+       
+        #after_id = turtle.getcanvas().after(movableTurtle.delay, lambda: cls.update_(screen))
+        #movableTurtle.tasks.append(after_id)
+        turtle.ontimer(lambda: cls.update_(screen), movableTurtle.delay)
+           
+    # @classmethod   
+    # def clear_tasks(cls):
+    #     print('clear tasks')
+    #     for task in movableTurtle.tasks: 
+    #         turtle.getcanvas().after_cancel(task)
+    #         movableTurtle.tasks.clear()

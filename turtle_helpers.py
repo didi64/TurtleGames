@@ -76,8 +76,12 @@ def connect_points(t,pts):
     for pt in pts:
         t.goto(pt)        
 
-
-
+def get_turtles(n,hide=True):
+    '''get a list of n turtles'''
+    tl = [turtle.Turtle() for _ in range(n)]
+    for t in tl: t.hideturtle()
+    return tl
+    
 # wird in mTurtle gebraucht
 def custom_turtle(t, size=(2,2), shape='circle', angle=0,\
                color=('black','black'), \

@@ -96,7 +96,7 @@ bob.add_action(bobs_action)
 invaders = [mTurtle(pos=(x,150), **invader_config) for x in range(-100,120,20)]
 
 for t in invaders:
-    t.add_action(lambda x=t: x.forward(1))
+    t.add_action(lambda x=t: t.forward(1))
     t.add_action(lambda x=t: shoot(x))
 screen.update()
 
