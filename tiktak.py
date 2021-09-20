@@ -1,4 +1,5 @@
 import random
+from datetime import datetime
 import tiktak_helpers as H
 
 def update_result():
@@ -7,6 +8,10 @@ def update_result():
     if H.is_tiktak(get_pts([True])): result = True
     elif H.is_tiktak(get_pts([False])): result = False
     elif get_pts([None]) == []: result = 'draw'
+    # if game ends, log result and score
+    if result is not None:
+        update_score()
+        update_log()
 
 def get_pts(players):
     '''return list of positions where player in the list players have played'''
@@ -21,6 +26,7 @@ def play(pt):
     global ptm
     if result is None and is_legal(pt): 
         pts_player[pt] = ptm 
+        buffer.append((*pt,ptm))
         update_result()
         ptm = not ptm
         return True 
@@ -33,9 +39,8 @@ def select_move():
     if winners: return winners[0]
     elif threats: return random.choice(threats)
     elif free: return  random.choice(free)
-    else: 
-        print('???')
-        return None
+    else: print('???')
+        
 def new_game():
     '''start new game'''
     global ptm, result
@@ -43,10 +48,42 @@ def new_game():
     ptm = True
     for pt in pts_player: 
         pts_player[pt] = None
-    
+
+    update_log(new=True)    
+
+
+#####################
+# logging
+
+def update_log(new=False):
+
+    if buffer:
+        buffer.append(str(result))
+        log.extend([buffer.copy()])
+        buffer.clear()
+    if new:
+        dt = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        buffer.append(dt)
+
+def reset_score():
+    score[0]=0
+    score[1]=0      
+
+def update_score():    
+    if  result is True:
+        score[0] += 1
+    elif result is False:
+        score[1] += 1
+    elif result == 'draw':
+        score[0] += 1
+        score[1] += 1
+  
 # game variables
+score = [0,0]
+buffer = []
+log = []
 X = [-100, 0, 100] 
-H.X = X
+H.X = X # pass X to modul tiktak_helpers
 pts_player = {(x,y): None for x in X for y in X}
 ptm = True # player to move
 result = None
